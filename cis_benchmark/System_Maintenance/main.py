@@ -3,7 +3,6 @@ import sys
 import importlib
 import logging
 from typing import Dict, Any
-from termcolor import colored
 
 # Setup logging
 logging.basicConfig(
@@ -18,13 +17,8 @@ sys.path.insert(0, ROOT_DIR)
 
 # Define compliance categories
 CATEGORIES = [
-    "Initial_Setup",
-    "Services",
-    "Network",
-    "Host_Based_Firewall",
-    "Access_Control",
-    "Logging_and_Auditing",
-    "System_Maintenance"
+    "System_File_Permissions",
+    "Local_User_and_Group_Settings"
 ]
 
 def run_checks() -> Dict[str, Any]:
@@ -42,14 +36,14 @@ def run_checks() -> Dict[str, Any]:
 
         if os.path.exists(main_script):
             try:
-                print(colored(f"\n=== Running checks for {category} ===","green"))
+                print(f"\n=== Running checks for {category}... ===")
 
                 # Dynamically import and run category main.py
                 module_name = f"{category}.main".replace("/", ".")
                 category_module = importlib.import_module(module_name)
 
-                if hasattr(category_module, "run_checks"):
-                    category_results = category_module.run_checks()
+                if hasattr(category_module, "run"):
+                    category_results = category_module.run()
                     
                     # Store detailed results
                     results[category] = category_results["detailed_results"]

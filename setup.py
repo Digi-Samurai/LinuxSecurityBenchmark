@@ -3,13 +3,12 @@ from setuptools import setup, find_packages
 
 setup(
     name='cis_benchmark_tool',
-    version='1.0.0',
+    version='2.0.0',
     description='Comprehensive CIS Benchmark Security Auditing Tool',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    author='Your Organization',
-    author_email='security@yourorg.com',
-    url='https://github.com/yourorg/cis-benchmark-tool',
+    author='Xhunter',
+    url='https://github.com/xhunter101/cis-benchmark-tool',
     packages=find_packages(),
     install_requires=[
         'termcolor>=1.1.0',
