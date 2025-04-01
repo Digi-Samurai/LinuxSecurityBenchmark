@@ -8,7 +8,7 @@ setup(
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     author='Xhunter',
-    url='https://github.com/xhunter101/cis-benchmark-tool',
+    url='https://github.com/Xhunter101/LinuxSecurityBenchmark',
     packages=find_packages(),
     install_requires=[
         'termcolor>=1.1.0',
