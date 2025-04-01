@@ -1,7 +1,7 @@
 # run_benchmark.py
 ```python
-from cis_benchmark.main import main
+from cis_benchmark.main import run_checks
 
 if __name__ == "__main__":
-    main()
+    run_checks()
 ```
