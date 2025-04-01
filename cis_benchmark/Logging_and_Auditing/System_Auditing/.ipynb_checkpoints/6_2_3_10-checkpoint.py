@@ -4,7 +4,7 @@ from typing import Dict, Any
 
 logger = logging.getLogger(__name__)
 
-def check_filesystem_mounts_collected() -> Dict[str, Any]:
+def check_successful_mounts_collection() -> Dict[str, Any]:
     """
     Ensure successful file system mounts are collected.
 
@@ -19,33 +19,28 @@ def check_filesystem_mounts_collected() -> Dict[str, Any]:
     }
 
     try:
-        # Check if file system mount events are logged
-        with open('/etc/audit/audit.rules', 'r') as file:
-            config = file.readlines()
+        # Check audit rules to collect successful file system mount events
+        command = "auditctl -l"
+        audit_rules = subprocess.check_output(command, shell=True, text=True)
 
-        fs_mount_logged = False
-        for line in config:
-            if "mount" in line or "umount" in line:
-                fs_mount_logged = True
-
-        if fs_mount_logged:
+        # Look for rule related to file system mounts in the audit rules
+        if "mount" in audit_rules:
             result['status'] = True
-            result['details'] = "Successful file system mount events are collected."
+            result['details'] = "Audit rule to collect successful file system mounts is present."
             logger.info(result['details'])
         else:
-            result['details'] = "Successful file system mount events are not being collected."
+            result['details'] = "Audit rule to collect successful file system mounts is missing."
             logger.warning(result['details'])
 
-    except Exception as e:
-        result['details'] = f"Error checking filesystem mount logging: {e}"
+    except subprocess.CalledProcessError as e:
+        result['details'] = f"Error checking audit rules: {e}"
         logger.error(result['details'])
 
     return result
 
 def run():
-    return {'filesystem_mounts_collected': check_filesystem_mounts_collected()}
+    return {'successful_filesystem_mounts': check_successful_mounts_collection()}
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     print(run())
-import
