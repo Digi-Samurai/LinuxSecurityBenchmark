@@ -102,18 +102,18 @@ def check_firewall_utility() -> Dict[str, Any]:
         if len(active_firewalls) == 1:
             result['status'] = True
             result['details'] = f'Single firewall utility in use: {active_firewalls[0]}'
-            logger.info(colored(result['details'],"blue"))
+            logger.info(result['details'])
         elif len(active_firewalls) > 1:
             result['details'] = f'Multiple firewall utilities active: {", ".join(active_firewalls)}'
-            logger.warning(colored(result['details'],"red"))
+            logger.warning(result['details'])
         else:
             result['details'] = 'No active firewall utilities found'
-            logger.warning(colored(result['details'],"red"))
+            logger.warning(result['details'])
     
     except Exception as e:
         result['status'] = False
         result['details'] = f'Error checking firewall utilities: {e}'
-        logger.error(colored(result['details'],"magenta"))
+        logger.error(result['details'])
     
     return result
 

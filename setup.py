@@ -1,4 +1,3 @@
-```python
 from setuptools import setup, find_packages
 
 setup(
@@ -33,4 +32,3 @@ setup(
     python_requires='>=3.8',
     keywords='security benchmark cis linux audit',
 )
-```
