@@ -4,6 +4,11 @@ import importlib
 import logging
 from typing import Dict, Any
 from termcolor import colored
+from rich.console import Console
+from rich.table import Table
+
+console = Console()
+
 
 # Setup logging
 logging.basicConfig(
@@ -75,8 +80,58 @@ def run_checks() -> Dict[str, Any]:
 
     return {"detailed_results": results, "summary": total_summary}
 
-if __name__ == "__main__":
+
+def display_results(results: Dict[str, Any]):
+    """Display results in a tabular format using rich."""
+    
+    # Iterate over categories and their respective checks
+    for category, checks in results['detailed_results'].items():
+        console.print(f"\n[bold green]Category: {category}[/bold green]")
+
+        # Create a new table for each category
+        table = Table(title=f"Compliance Checks for {category}", show_header=True, header_style="bold cyan")
+
+        # Add columns for the table
+        table.add_column("Check", style="dim")
+        table.add_column("Benchmark ID")
+        table.add_column("Name")
+        table.add_column("Status")
+        table.add_column("Severity")
+        table.add_column("Details")
+        
+        # Iterate over each check within the category
+        for check_name, check_details in checks.items():
+            # Print the name of the sub-check (e.g., cramfs_module)
+            console.print(f"\n[bold cyan]{check_name}[/bold cyan]")
+
+            # Iterate over the details of the sub-checks
+            for sub_check_name, sub_check_details in check_details.items():
+                # Extract necessary details
+                benchmark_id = sub_check_details.get('benchmark_id', 'N/A')
+                name = sub_check_details.get('name', 'N/A')
+                status = "Passed" if sub_check_details.get('status', False) else "Failed"
+                severity = sub_check_details.get('severity', 'N/A')
+                details = sub_check_details.get('details', 'N/A')
+
+                # Add the row to the table for this sub-check
+                table.add_row(
+                    sub_check_name,  # This is the sub-check name (e.g., cramfs_module)
+                    benchmark_id,
+                    name,
+                    status,
+                    severity,
+                    details
+                )
+
+        # Print the table for this category
+        console.print(table)
+
+def main():
     compliance_results = run_checks()
+
+    print("\n=== Benchmark results ===")
+    # Display detailed results in a tabular format
+    display_results(compliance_results)
     
     # Print final summary
     print("\n=== Compliance Summary ===")
@@ -87,3 +142,6 @@ if __name__ == "__main__":
     print(f"Compliance Percentage: {summary['compliance_percentage']:.2f}%")
     
     logger.info("Compliance Check Completed.")
+
+if __name__ == "__main__":
+    main()

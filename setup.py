@@ -13,10 +13,11 @@ setup(
         'termcolor>=1.1.0',
         'colorama>=0.4.4',
         'psutil>=5.8.0',
+        'rich'
     ],
     entry_points={
         'console_scripts': [
-            'cis-benchmark=cis_benchmark.main:main',
+            'CisBenchmark=cis_benchmark.main:main',
         ],
     },
     classifiers=[

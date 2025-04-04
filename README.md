@@ -58,13 +58,22 @@ Install the required dependencies:
 pip install -r requirements.txt
 ```
 
----
+Run Benchmark:
 
-## **Usage**
+```bash
+python cis_benchmark/main.py
+```
 
-To run the security benchmark, use the following command:
+#### OR
 
-    python run_benchmark.py
+Clone and install and run:
+
+```bash
+git clone https://github.com/Xhunter101/LinuxSecurityBenchmark.git
+cd LinuxSecurityBenchmark
+pip install .
+CisBenchmark
+```
 
 ---
 
